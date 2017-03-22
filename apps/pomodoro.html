@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autostart="false"></audio>
+		<!--Google fonts?-->
+
+		<style>
+			:root {
+				--gradientLoc: 0;
+				--Color1: rgb(245, 103, 103);
+				--Color2: lightgreen;
+			}
+
+      * {
+        text-align: center;
+      }
+
+      .device {
+        margin: auto;
+        margin-top: 5%;
+        padding: 20px;
+        height: 300px;
+        width: 370px;
+        border-radius: 50%;
+				border-style: groove;
+				border-width: 5px;
+				border-color: black;
+				background-image: -webkit-linear-gradient(
+					left, var(--Color1) calc(var(--gradientLoc)*1% - 5%), var(--Color2) calc(var(--gradientLoc)*1% + 5%));
+      }
+
+      .time {
+        margin: 10px;
+        font-size: 80px;
+        font-family: Times;
+      }
+
+		</style>
+	</head>
+
+	<body>
+    <div class='device'>
+      <h1><i>Pomodoro Clock</i></h1>
+      <div class='time'>25:00</div>
+			<div class='count'>Pomodoros:0 Breaks:0</div><br><br>
+			<div class='inputs'>
+				Work:<input id='work' type="number" min="1" max="60" value="25">
+				Break:<input id='break' type="number" min="1" max="60" value="5">
+			</div><br>
+			<div>
+				<button id='pause'>Go/Pause</button>
+				<button id='reset'>RESET</button>
+			</div>
+    </div>
+
+		<!-- My Local Scripts -->
+		<script>
+			var maxTime = 25 * 60, minTime = 5 * 60, time100 = maxTime;
+			var nPomodoros = 0, nBreaks = 0;
+			var isBreak = false;
+			var isPaused = true;
+			var percentage = 0;
+			var IntID;
+			document.querySelector('.inputs').oninput=function(){
+					maxTime = document.querySelector('#work').value * 60;
+					minTime = document.querySelector('#break').value * 60;
+			};
+			document.querySelector('#pause').onclick=function(){
+				isPaused = !isPaused;
+			};
+			document.querySelector('#reset').onclick=function(){
+				clearInterval(IntID);
+				nPomodoros = 0, nBreaks = 0; percentage = 0;
+				time100 = maxTime;
+				isBreak = false; isPaused = true;
+				document.documentElement.style.setProperty('--Color1', 'rgb(245, 103, 103)');
+				document.documentElement.style.setProperty('--Color2', 'lightgreen');
+				countDown(maxTime);
+			};
+
+			function countDown (timeLeft) {
+        IntID = setInterval(function(){
+					var minutes = parseInt(timeLeft / 60, 10);
+					var seconds = parseInt(timeLeft % 60, 10);
+					minutes = minutes < 10 ? "0" + minutes : minutes;
+					seconds = seconds < 10 ? "0" + seconds : seconds;
+
+					document.querySelector('.time').textContent = minutes + ":" + seconds;
+					document.querySelector('.count').textContent = "Pomodoros:" + nPomodoros + ' Breaks:' + nBreaks;
+					document.documentElement.style.setProperty('--gradientLoc', percentage);
+
+					if(!isPaused){
+						if(--timeLeft < 0){
+							document.getElementById("audio").play();
+							isBreak = !isBreak; //first time using 'let' block scope variable!
+							let tempVar1 = getComputedStyle(document.documentElement).getPropertyValue('--Color1');
+							let tempVar2 = getComputedStyle(document.documentElement).getPropertyValue('--Color2');
+							document.documentElement.style.setProperty('--Color1', tempVar2);
+							document.documentElement.style.setProperty('--Color2', tempVar1);
+							if(isBreak){
+								time100 = minTime;
+								timeLeft = minTime;
+								nPomodoros++;
+							}
+							else {
+								time100 = maxTime;
+								timeLeft = maxTime;
+								nBreaks++;
+							}
+						}
+						percentage = 100 - 100 * timeLeft/time100;
+					}
+				}, 1000);
+      }
+
+			countDown(maxTime);
+
+		</script>
+	</body>
+</html>

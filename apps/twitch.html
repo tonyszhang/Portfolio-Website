@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<!--Google fonts?-->
+
+		<style>
+			body {
+				background-color: black;
+			}
+
+			h2,footer {
+				color: white;
+			}
+
+			.well {
+				padding: 0;
+				padding-left: 10px;
+				margin: 5px;
+			}
+
+			span {
+				float: right;
+				margin: 10px;
+			}
+
+			.online {
+				background-color: lightgreen;
+			}
+
+			@media (max-width: 600px) {
+				h4 {
+					font-size: 10px;
+				}
+				img {
+					height: 25px;
+					width: 25px;
+				}
+				span {
+					font-size: 7px;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class='container'>
+	  <h2 id='title' class='text-center'>twitch.tv streamers</h2>
+	  <div id='content'></div>
+	  <!--button>Click</button-->
+		</div>
+		<footer class='text-center'>Coded by TSZ</footer>
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- My Local Scripts -->
+		<script>
+			$('document').ready(function(){
+			//$('button').click(function(){
+				var streams = ["freecodecamp", "comster404", "itsmikeyboi", "GosuGamers", "OgamingSC2", "cretetion", "habathcx", "RobotCaleb", "noobs2ninjas", "trick310g", "IceLLUMINATI", "BrothasUpshall"];
+
+				streams.forEach(function(value){
+					var status = "";
+					$.getJSON('https://api.twitch.tv/kraken/streams/'+value+'?callback=?', function(data1) {
+						status = (data1.stream == null)? "Offline":(data1.stream.game);
+						$.getJSON('https://api.twitch.tv/kraken/channels/'+value+'?callback=?', function(data2) {
+
+							if(data2.status == 422) {
+								$('#content').append(
+									'<div class="well"><h4><img src="http://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_purple.png" height="50" width="50">&nbsp;'+value+
+									'<span>Account Unavailable</span></h4></div>'
+								);
+							}
+							else if(status != "Offline") {
+								$('#content').prepend(
+									'<div class="well online"><h4><a target="_blank" href="'+
+									data2.url+'"><img src="'+data2.logo+
+									'" height="50" width="50"></a>&nbsp;<a target="_blank" href="'+
+									data2.url+'">'+data2.display_name+'</a><span>'+status+' with '+data1.stream.viewers+' viewers</span></h4></div>'
+								);
+							}
+							else {
+								$('#content').append(
+									'<div class="well"><h4><a target="_blank" href="'+
+									data2.url+'"><img src="'+data2.logo+
+									'" height="50px" width="50px"></a>&nbsp;<a target="_blank" href="'+
+									data2.url+'">'+data2.display_name+'</a><span>'+status+'</span></h4></div>'
+								);
+							}
+						});
+					});
+				});
+			//});
+			});
+		</script>
+	</body>
+</html>

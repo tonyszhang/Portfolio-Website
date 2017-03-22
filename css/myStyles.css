@@ -1,0 +1,21 @@
+body {
+  padding-top: 100px;
+  font-family: 'Slabo 27px', serif;
+}
+
+section { padding-top: 30px; }
+
+h5, h6, p, td {font-family: 'Arial';}
+
+.profile {
+  border: 5px double black;
+  border-radius: 50%;
+  width: 80%;
+  margin: auto;
+}
+
+.Tshape {
+  width: 80%;
+  margin: auto;
+  margin-top: 4.5%;
+}

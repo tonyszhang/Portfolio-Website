@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<!-- Additional fancy theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<!-- My Local CSS Styles -->
+		<style>
+			body {
+				margin-top: 50px;
+				}
+
+				img {
+				margin-top: 30px;
+				}
+
+				table {
+				margin-top: 30px;
+				}
+
+				th, td {
+				text-align: center;
+				}
+		</style>
+	</head>
+
+	<body class="container">
+
+		<div class="container well well-large">
+
+		  <h1 class="text-primary text-center ">The X-Planes</h2>
+		  <h3 class="text-primary text-center "><em>Pushing the Limits of Flight</em></h3>
+		  <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/X-29_at_High_Angle_of_Attack_with_Smoke_Generators.jpg" class="img-responsive" id="main_picture">
+			<h5>The X-planes are a series of experimental aircraft, operated by NASA and/or the USAF, used to test and evaluate new technologies and aerodynamic concepts. Most X-planes never went into full-scale production.</h5>
+
+			<div class="table-responsive ">
+				<table class="table">
+					<tr>
+						<th>Notable Models</th>
+						<th>Significance</th>
+						<th>View Picture</th>
+					</tr>
+					<tr>
+						<td>Bell X-1A</td>
+						<td>First to break the sound barrier</td>
+						<td><button id="button1">Click</button>  <a href="http://images.lmgtfy.com/?q&#61bell+x-1a" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Bell X-2</td>
+						<td>First to exceed Mach 3</td>
+						<td><button id="button2">Click</button>  <a href="http://images.lmgtfy.com/?q&#61bell+x-2" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Bell X-5</td>
+						<td>First aircraft with variable-sweep wings</td>
+						<td><button id="button3">Click</button>  <a href="http://images.lmgtfy.com/?q&#61bell+x-5" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>North American X-15</td>
+						<td>First manned hypersonic aircraft</td>
+						<td><button id="button4">Click</button>  <a href="http://images.lmgtfy.com/?q&#61north+american+x-15" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Grumman X-29</td>
+						<td>Forward swept wings.</td>
+						<td><button id="button5">Click</button>  <a href="http://images.lmgtfy.com/?q&#61grumman+x-29" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Rockwell-MBB X-31</td>
+						<td>Thrust vectoring supermaneuverability</td>
+						<td><button id="button6">Click</button>  <a href="http://images.lmgtfy.com/?q&#61rockwell+x-31" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Lockheed Martin X-35</td>
+						<td>Became the Joint Strike Fighter</td>
+						<td><button id="button7">Click</button>  <a href="http://images.lmgtfy.com/?q&#61lockheed+x-35" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Boeing X-36</td>
+						<td>Tailless fighter aircraft</td>
+						<td><button id="button8">Click</button>  <a href="http://images.lmgtfy.com/?q&#61boeing+x-36" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Micro Craft X-43</td>
+						<td>Speed record of Mach 9.6 (~11,000 km/h)</td>
+						<td><button id="button9">Click</button>  <a href="http://images.lmgtfy.com/?q&#61micro+craft+x-43" target="_blank ">More</a></td>
+					</tr>
+					<tr>
+						<td>Northop Grumman X-47B</td>
+						<td>Naval unmanned combat air vehicle</td>
+						<td><button id="button10">Click</button>  <a href="http://images.lmgtfy.com/?q&#61grumman+x-47b" target="_blank ">More</a></td>
+					</tr>
+				</table>
+			</div>
+
+			<h4 class="text-secondary text-center">To read more on this amazing series of aircraft, visit <a href="https://en.wikipedia.org/wiki/List_of_X-planes " target="_blank ">Wikipedia</a></h4>
+
+		</div>
+
+		<footer class="container text-center">
+		  <hr>
+		  <p>Made by TSZ</p>
+		</footer>
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<!-- My Local Scripts -->
+		<script>
+		$(document).ready(function() {
+			$('#button1').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/5/50/Bell_X-1_46-062_%28in_flight%29.jpg');
+			});
+			$('#button2').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/b/bc/X-2_After_Drop_from_B-50_Mothership_-_GPN-2000-000396.jpg');
+			});
+			$('#button3').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Bell-X5-Multiple.jpg');
+			});
+			$('#button4').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/d/d6/X-15_in_flight.jpg');
+			});
+			$('#button5').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/1/10/X-29_at_High_Angle_of_Attack_with_Smoke_Generators.jpg');
+			});
+			$('#button6').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/8/80/Rockwell-MBB_X-31_landing.JPG');
+			});
+			$('#button7').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/9/90/X-35.jpg');
+			});
+			$('#button8').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/1/14/Boeing-X36-InFlight.jpg');
+			});
+			$('#button9').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/a/a5/X-43A.jpg');
+			});
+			$('#button10').click(function() {
+				$('#main_picture').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/f/f6/X-47B_receiving_fuel_from_a_707_tanker_while_operating_in_the_Atlantic_Test_Ranges.jpg');
+			});
+		});
+
+		</script>
+	</body>
+</html>

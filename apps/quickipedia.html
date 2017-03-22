@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<!--Google fonts?-->
+
+		<style>
+			footer {
+				text-align: center;
+				font-size: 10px;
+			}
+
+			body {
+				background-color: #fff;
+				background-size: 100% 2em;
+				background-image:
+				linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+				linear-gradient(#eee .1em, transparent .1em);
+			}
+
+			.well {
+				margin-left: 10%;
+				margin-right: 10%;
+			}
+
+			input {
+				border: 1px solid;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+		  <div class = "row text-center">
+		    <h2>Quickipedia</h2>
+		  </div>
+	    <div class = "row text-center">
+		    <input id='search' type="text" placeholder="search">
+		    <input id='nResults' type="number" min="1" max="100" value="3">
+		  </div><br>
+		  <div class = "row well"></div>
+		  <div class = "row text-center"><a href="https://en.wikipedia.org/wiki/Special:Random" target='_blank'>Random Knowledge</a></div>
+		</div><br>
+		<footer>Coded by TSZ</footer>
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- My Local Scripts -->
+		<script>
+			$(document).ready(function() {
+			  $("#search,#nResults").on('input',function() {
+			    var query = $('#search').val();
+			    var limit = $('#nResults').val();
+			    query = query.replace(/ /g, "+");
+			    limit = '&limit=' + limit;
+			    $.getJSON('https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+query+limit+'&callback=?', function(data) {
+			      var content = "";
+			      for(var i = 0; i < data[1].length; i++){
+			        content += '<h4><a target="_blank" href='+data[3][i]+'>'+data[1][i]+'</a></h4>';
+			        content += '<p>'+data[2][i]+'</p>';
+			      }
+			      $(".well").html(content);
+			    });
+			  });
+			});
+		</script>
+	</body>
+</html>

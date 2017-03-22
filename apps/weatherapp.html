@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<!-- Additional fancy theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<!-- Imported Google fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+		<!-- My Local CSS Styles -->
+		<style>
+			body {
+			  background-color: #66aaee;
+			  /*background-image: url('http://www.tonyszhang.com/img/toronto.jpg');*/
+			  background-position: center;
+			  background-repeat: no-repeat;
+			  background-size: cover;
+			  background-attachment: fixed;
+			  font-family: 'Oleo Script', cursive;
+			}
+
+			.jumbotron {
+			  padding: 2.5%;
+			  margin: 15% 25% 20% 25%;
+			  opacity: 0.8;
+			  color: black;
+			}
+
+			footer {
+				text-align: right;
+				font-family: Times;
+				font-size: 10px;
+			}
+
+			@media (max-width: 667px) and (orientation:portrait) {
+			    .jumbotron {
+			      padding: 1%;
+			  		margin: 50% 5% 40% 5%;
+			    }
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+		  <div class="jumbotron">
+		  	<div class="container-fluid">
+			    <div class="row">
+			      <div class="col-xs-12 text-center">
+			      	<h2 id="city">CITY</h2>
+			      </div>
+			    </div>
+			    <div class="row">
+			      <div class="col-xs-6">
+			      	<img id="icon" src="http://www.tonyszhang.com/icons/weather/01d.png" class="img-responsive pull-right">
+			      </div>
+			      <div class="col-xs-6">
+			        <h2 id="temp">XX &deg;C</h2>
+			        <h6 id="weather">weather</h6>
+			      </div>
+			    </div>
+			    <!--div class="row text-center">
+			      <div class="col-xs-12">
+			        <button id = "request" class = "btn">Refresh</button>
+			      </div>
+			    </div-->
+					<div>
+						<footer>Photos from Flickr. Coded by TSZ.</footer>
+					</div>
+		    </div>
+		  </div>
+		</div>
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<!-- My Local Scripts -->
+		<script>
+			var temperature = 0;
+			$(document).ready(function() {
+			    //$("#request").click(function() {
+			      $.getJSON('http://ipinfo.io', function(data1){
+			        $("#city").text(data1.city);
+			        var nLat = Number(data1.loc.split(',')[0]).toFixed(2);
+			        var nLon = Number(data1.loc.split(',')[1]).toFixed(2);
+			        var location = 'city,' + data1.city + ',' + data1.region;
+			        console.log(data1);
+			        $.getJSON('http://api.openweathermap.org/data/2.5/weather?lat='+nLat+'&lon='+nLon+'&appid=ba12aff91c8e0b9798e11fd9591d3f14', function(data2) {
+			          console.log(data2);
+			          $("#weather").text(data2.weather[0].description);
+			          $("#icon").attr("src", 'http://www.tonyszhang.com/icons/weather/' + data2.weather[0].icon + '.png');
+			          temperature = Number(data2.main.temp) - 273.15;
+			          $("#temp").html(Math.round(temperature) + ' &deg;C');
+			          $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+			          {
+			            tags: location,
+			            tagmode: "all",
+			            format: "json"
+			          }, function(data3) {
+			              console.log(data3);
+			              var nRandom = Math.floor(Math.random() * data3.items.length);
+			              var img_link = data3.items[nRandom].media.m.replace("_m", "_b");
+			              $('body').css('background-image', "url('" + img_link + "')");
+			          });
+			        });
+			      });
+			    //});
+
+			  $("#temp").hover(function() {$(this).css('cursor','pointer');},
+			                   function() {$(this).css('cursor','auto');
+			  });
+
+			  $("#temp").click(function () {
+			  	console.log(temperature);
+			    if( $('#temp').text()[$('#temp').text().length -1 ] == 'C' ) {
+			      $("#temp").html(Math.round(C2F(temperature)) + ' &deg;F');
+			    }
+			    else if( $('#temp').text()[$('#temp').text().length -1 ] == 'F' ) {
+			      $("#temp").html(Math.round(temperature) + ' &deg;C');
+			    }
+			  });
+
+			  function C2F(num) {
+			    return (num * (9/5) + 32);
+			  }
+
+			});
+
+		</script>
+	</body>
+</html>

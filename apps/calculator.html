@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--Google fonts?-->
+		<link href="https://fonts.googleapis.com/css?family=Iceberg" rel="stylesheet">
+
+		<style>
+			html {
+				font: bold 30px Iceberg;
+				background-color: #eee
+			}
+
+			.device {
+				background-color: #556677;
+				text-align: center;
+				width: 300px;
+				height: 460px;
+				margin: auto;
+				margin-top: 5%;
+				border-radius: 20px;
+				box-shadow: 6px 7px;
+			}
+
+			.screen {
+				position: relative;
+				top: 10px;
+				left: 10px;
+				margin-bottom: 20px;
+				width: 280px;
+				height: 70px;
+				background-color: lightgreen;
+				text-align: right;
+				border-radius: 10px;
+				box-shadow: inset 3px 3px;
+
+				line-height: 1.2;
+				font-size: 60px;
+			}
+
+			.button {
+				margin-right: 10px;
+			}
+
+			span {
+				position: relative;
+				display: block;
+				float: right;
+				text-align: center;
+				width: 60px;
+				height: 60px;
+				margin: 5px;
+				background-color: lightgrey;
+				box-shadow: 5px 5px;
+				border-radius: 3px;
+				cursor: pointer;
+
+				line-height: 2em;
+			}
+
+			span:active{
+				box-shadow: 3px 3px;
+				top: 2px;
+			}
+
+			#clear {
+				background-color: red;
+			}
+
+			#equal {
+				background-color: lightblue;
+			}
+
+			.footer {
+				color: white;
+				font-size: 10px;
+				line-height: 2em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class='device'>
+		  <div class='screen'>0</div>
+		  <div class='button'>
+		    <span>÷</span>
+		    <span>)</span>
+		    <span>(</span>
+		    <span id='clear'>C</span>
+		    <span>×</span>
+		    <span>9</span>
+		    <span>8</span>
+		    <span>7</span>
+		    <span>–</span>
+		    <span>6</span>
+		    <span>5</span>
+		    <span>4</span>
+		    <span>+</span>
+		    <span>3</span>
+		    <span>2</span>
+		    <span>1</span>
+		    <span id='equal'>=</span>
+		    <span>-</span>
+		    <span>.</span>
+		    <span id ='zero'>0</span>
+		  </div>
+		  <div class='footer'>Made by TSZ</div>
+		</div>
+
+		<!-- My Local Scripts -->
+		<script>
+			var buttons = document.querySelectorAll('span');
+			var display = document.getElementsByClassName('screen');
+			var equation = '0';
+			var equaled = false;
+			var ans = '';
+			var ops = ['+', '–', '×', '÷'];
+
+			for(var i = 0; i < buttons.length; i++){
+			(function(ii){
+				buttons[ii].onclick = function(){
+					if(equaled && ops.indexOf(buttons[ii].innerHTML) > -1){
+						equation = ans + buttons[ii].innerHTML;
+					}
+					else if(equation == '0'){
+						equation = buttons[ii].innerHTML;
+					}
+					else{
+						equation += buttons[ii].innerHTML; //Main line.
+					}
+
+					if(equation.length > 9){
+						display[0].innerHTML = equation.slice(-9);
+					}
+					else{
+						display[0].innerHTML = equation;
+					}
+					equaled = false;
+				};
+			})(i); //OMG first time using a closure!
+			}
+
+			//replace special keys or those with special cases
+			document.getElementById('clear').onclick = function(){
+			equation = '0';
+			equaled = false;
+			display[0].innerHTML = equation;
+			};
+
+			document.getElementById('equal').onclick = function(){
+			equation = equation.replace(/×/g,'*');
+			equation = equation.replace(/÷/g,'/');
+			equation = equation.replace(/–/g,'-');
+			ans = eval(equation);
+			if(ans.toString().length > 9){
+				display[0].innerHTML = ans.toExponential(3);
+			}
+			else{
+				display[0].innerHTML = ans;
+			}
+			equation = '';
+			equaled = true;
+			};
+		</script>
+	</body>
+</html>

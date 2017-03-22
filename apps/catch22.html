@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<!-- Additional fancy theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<!--Google fonts-->
+		<link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
+		<!-- My Local CSS Styles -->
+		<style>
+			body {
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-attachment: fixed;
+				background-image: url('http://www.tonyszhang.com/img/catch22_poster.jpg');
+				font-family: 'Special Elite', cursive;
+			}
+
+			.box {
+				background-color: #203E8C;
+				color: #FEEBCA;
+				border-radius: 10px;
+				border-style: ridge;
+				border-color: #FEEBCA;
+				cursor: pointer;
+
+				margin-top: 5%;
+				margin-left: 5%;
+				padding: 10px;
+				width: 40%;
+			}
+
+			@media (max-width: 736px){
+				.box {
+					margin: auto;
+					margin-top: 5%;
+					padding: 10px;
+					width: 75%;
+				}
+			}
+
+			.footer{
+				font-size: 75%;
+				text-align: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class='box text-center'>
+		  <h4 id='quote'>click box for new quote</h4>
+		  <p><img style='width: 10%;' src='http://www.tonyszhang.com/icons/catch22.png'><span id='who'>- box movable with mouse</span></p>
+		  <a target='_blank' style='color:#FEEBCA;' href='http://twitter.com/home/?status="I love Joseph Heller&apos;s Catch-22!"'><img style='width: 5%;' src='https://g.twimg.com/Twitter_logo_white.png'> tweet</a>
+		  <div class='footer'>by TSZ</div>
+		</div>
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- jQuery UI library -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<!-- My Local Scripts -->
+		<script>
+			var Quotes = [
+				{quote: 'Just because you\'re paranoid doesn\'t mean they aren\'t after you.'},
+				{quote: 'It doesn\'t make a damned bit of difference who wins the war to someone who\'s dead'},
+				{quote: 'Some men are born mediocre, some men achieve mediocrity, and some men have mediocrity thrust upon them. With Major Major it had been all three. Even among men lacking all distinction he inevitably stood out as a man lacking more distinction than all the rest, and people who met him were always impressed by how unimpressive he was.'},
+				{quote: 'He was going to live forever, or die in the attempt'},
+				{quote: '...Anything worth dying for ... is certainly worth living for.'},
+				{quote: 'The enemy is anybody who\'s going to get you killed, no matter which side he is on.', },
+				{quote: 'He knew everything there was to know about literature, except how to enjoy it'},
+				{quote: 'They agreed that it was neither possible nor necessary to educate people who never questioned anything.'},
+				{quote: 'What is a country? A country is a piece of land surrounded on all sides by boundaries, usually unnatural. Englishmen are dying for England, Americans are dying for America, Germans are dying for Germany, Russians are dying for Russia. There are now fifty or sixty countries fighting in this war. Surely so many countries can\'t all be worth dying for.'},
+				{quote: 'The country was in peril. He was jeopardizing his traditional rights of freedom and independence by daring to exercise them.'},
+				{quote: 'I\'m cold', person: 'Snowden'}
+			];
+
+			$(document).ready(function() {
+				$('.box').draggable();
+				$('.box').click(function(event) {
+					if($(event.target).is('a')){
+						return;
+					}
+					$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+						{tags: "WWII, airplane, sepia", tagmode: "all", format: "json"},
+						function(data) {
+							console.log(data);
+							var nRandom = Math.floor(Math.random() * data.items.length);
+							var img_link = data.items[nRandom].media.m.replace("_m", "_b");
+							$('body').css('background-image', "url('" + img_link + "')");
+						}
+					);
+
+					var nRand = Math.floor(Math.random()*Quotes.length);
+					$('#quote').html('&quot;' + Quotes[nRand].quote + '.&quot;' );
+					if(Quotes[nRand].person === undefined) {
+						$('#who').html('- Joseph Heller, Catch-22'); }
+					else {
+						$('#who').html('- ' + Quotes[nRand].person + ', Catch-22, Joseph Heller');
+					}
+
+					var tweetQuote = Quotes[nRand].quote;
+					if(Quotes[nRand].quote.length > 120){
+						tweetQuote = tweetQuote.substr(0,119).concat('...');
+					}
+					$('a').attr('href','http://twitter.com/home/?status="'+tweetQuote+'"'+' - Joseph Heller');
+				});
+			});
+		</script>
+	</body>
+</html>
